@@ -1,0 +1,57 @@
+name: fly-deploy (reusable)
+# Crom Services shared Fly deploy. Skips cleanly (green, with a notice) when
+# the FLY_API_TOKEN secret is not set, so forks and PRs never fail on it.
+# Call from a sample repo (push to main):
+#   jobs:
+#     deploy:
+#       uses: CromServices/crom-shared/.github/workflows/fly-deploy.yml@v1
+#       secrets: inherit            # or: secrets: { FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }} }
+#       with: { app: "" }           # optional; default is app = in fly.toml
+# Use an app-scoped, expiring deploy token (fly tokens create deploy -a <app> -x 2160h).
+on:
+  workflow_call:
+    inputs:
+      app:
+        description: Fly app name (default from fly.toml)
+        type: string
+        default: ""
+      working-directory:
+        description: Folder that holds fly.toml
+        type: string
+        default: "."
+      config:
+        description: fly.toml path relative to working-directory
+        type: string
+        default: "fly.toml"
+    secrets:
+      FLY_API_TOKEN:
+        required: false
+permissions:
+  contents: read
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    concurrency:
+      group: fly-deploy-${{ inputs.app || github.repository }}
+      cancel-in-progress: false
+    env:
+      FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+    defaults:
+      run:
+        working-directory: ${{ inputs.working-directory }}
+    steps:
+      - name: Skip when FLY_API_TOKEN is unset
+        if: ${{ env.FLY_API_TOKEN == '' }}
+        run: echo "::notice::FLY_API_TOKEN is not set; skipping Fly deploy."
+      - uses: actions/checkout@v4
+        if: ${{ env.FLY_API_TOKEN != '' }}
+      - uses: superfly/flyctl-actions/setup-flyctl@master
+        if: ${{ env.FLY_API_TOKEN != '' }}
+      - name: Deploy
+        if: ${{ env.FLY_API_TOKEN != '' }}
+        run: |
+          if [ -n "${{ inputs.app }}" ]; then
+            flyctl deploy --remote-only --config "${{ inputs.config }}" --app "${{ inputs.app }}"
+          else
+            flyctl deploy --remote-only --config "${{ inputs.config }}"
+          fi

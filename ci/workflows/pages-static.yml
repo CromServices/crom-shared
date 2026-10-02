@@ -1,0 +1,41 @@
+name: pages-static (reusable)
+# Crom Services shared GitHub Pages deploy for a plain static folder (no build).
+# Caller needs Pages source = "GitHub Actions" and these permissions:
+#   permissions: { contents: read, pages: write, id-token: write }
+#   jobs:
+#     pages:
+#       uses: CromServices/crom-shared/.github/workflows/pages-static.yml@v1
+#       with: { path: "docs" }
+on:
+  workflow_call:
+    inputs:
+      path:
+        description: Folder to publish
+        type: string
+        default: "."
+    outputs:
+      page_url:
+        value: ${{ jobs.deploy.outputs.page_url }}
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    concurrency:
+      group: pages-${{ github.repository }}
+      cancel-in-progress: false
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    outputs:
+      page_url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: ${{ inputs.path }}
+      - id: deployment
+        uses: actions/deploy-pages@v4

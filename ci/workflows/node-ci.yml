@@ -1,0 +1,49 @@
+name: node-ci (reusable)
+# Crom Services shared CI: install, build (if a build script exists), test.
+# Call from a sample repo:
+#   jobs:
+#     ci:
+#       uses: CromServices/crom-shared/.github/workflows/node-ci.yml@v1
+#       with: { node-version: "20", working-directory: "." }
+on:
+  workflow_call:
+    inputs:
+      node-version:
+        description: Node.js version
+        type: string
+        default: "20"
+      working-directory:
+        description: Folder that holds package.json
+        type: string
+        default: "."
+      build-script:
+        description: npm script to run as the build step ("" to skip)
+        type: string
+        default: "build"
+      test-script:
+        description: npm script to run as the test step ("" to skip)
+        type: string
+        default: "test"
+permissions:
+  contents: read
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ${{ inputs.working-directory }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ inputs.node-version }}
+          cache: npm
+          cache-dependency-path: ${{ inputs.working-directory }}/package-lock.json
+      - name: Install
+        run: npm ci
+      - name: Build
+        if: ${{ inputs.build-script != '' }}
+        run: npm run --if-present ${{ inputs.build-script }}
+      - name: Test
+        if: ${{ inputs.test-script != '' }}
+        run: npm run --if-present ${{ inputs.test-script }}

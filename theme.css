@@ -1,0 +1,181 @@
+/*
+ * Crom Services shared light theme: crom-shared v1
+ * ONE source for every Crom sample page, the packs page and the job page.
+ * Hosted: https://cromservices.github.io/crom-shared/theme.css
+ * Values: Brand PACKS-SCHEME-SPEC.md (measured from https://cromservices.lovable.app/, 1 Oct 2026).
+ * Change a value here and every sample that links this file picks it up.
+ * Follows the visitor's system setting (prefers-color-scheme): light by default,
+ * dark when the OS asks for dark. Force one with <html data-theme="light|dark">.
+ * Light tokens: measured (Brand spec). Dark tokens: PROPOSED (Brand to check),
+ * neutral ink, not the old green job-page palette.
+ * Logo and credit swap with the scheme via .crom-when-light / .crom-when-dark.
+ */
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap");
+
+:root {
+  /* colours */
+  --bg: #f3f2ef;            /* page (live --paper) */
+  --card: #ffffff;          /* cards (live --surface) */
+  --fg: #111111;            /* body text, headings (live --ink) */
+  --muted: #6b6b6b;         /* muted / small text (live --ink-soft) */
+  --border: #e4e2dc;        /* card borders, header rule, section dividers (live --rule) */
+  --soft: #eeede9;          /* chips, soft panels (live --secondary) */
+  --primary: #111111;       /* primary button bg */
+  --primary-fg: #ffffff;    /* primary button text */
+  --primary-hover: #333333; /* primary button hover (live --ink-hover) */
+  --outline-hover: rgba(17, 17, 17, 0.06); /* outline button hover */
+  --ring: #111111;          /* focus outline */
+  --credit-fg: #4a5752;     /* "Built by Crom Services" text on light footers (crom-credit SPEC) */
+  --thumb-bg: #ffffff;      /* thumbs are drawn on white (THUMB-SPEC) */
+  /* shape and spacing */
+  --radius-card: 16px;
+  --radius-media: 12px;
+  --radius-pill: 9999px;
+  --shell: 1040px;          /* max-width incl. 20px side padding, so 1000px content */
+  --gutter: 20px;
+  --gap: 20px;
+  --card-pad: 24px;
+  --btn-pad: 10px 24px;
+  --btn-min-h: 44px;
+  --logo-h: 64px;           /* mobile */
+  --logo-h-md: 84px;        /* >=768px */
+  --section-pad: 64px;      /* mobile */
+  --section-pad-md: 96px;   /* >=768px */
+  /* type */
+  --font-ui: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --fs-body: 17px;  --fs-body-md: 18px;
+  --fs-lead: 1.0625rem; --fs-lead-md: 1.2rem;
+  --fs-h1: 2.05rem; --fs-h1-md: 3.4rem;
+  --fs-h2: 28px;    --fs-h2-md: 36px;
+  --fs-h3: 18.4px;
+  --fs-note: 15px;
+  --fs-small: 14px;
+  --tracking-tight: -0.018em;
+  --ease: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* DARK tokens (PROPOSED for Brand's check). Same values twice: system dark, and forced data-theme="dark". */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #111111;            /* PROPOSED: firm ink as page */
+    --card: #1a1a1a;          /* PROPOSED */
+    --fg: #f3f2ef;            /* PROPOSED: firm paper as text, 16.9:1 on --bg */
+    --muted: #a8a8a8;         /* PROPOSED: 7.9:1 on --bg, 7.3:1 on --card */
+    --border: #33322e;        /* PROPOSED: warm rule, decorative */
+    --soft: #222222;          /* PROPOSED */
+    --primary: #f3f2ef;       /* PROPOSED: pill inverts to paper */
+    --primary-fg: #111111;    /* 16.9:1 */
+    --primary-hover: #d9d7d1; /* PROPOSED */
+    --outline-hover: rgba(243, 242, 239, 0.08);
+    --ring: #f3f2ef;
+    --credit-fg: #cdd6d1;     /* crom-credit SPEC dark text, 12.7:1 on #111111 */
+    --thumb-bg: #ffffff;      /* thumbs stay white windows in both schemes */
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+    --bg: #111111;            /* PROPOSED: firm ink as page */
+    --card: #1a1a1a;          /* PROPOSED */
+    --fg: #f3f2ef;            /* PROPOSED: firm paper as text, 16.9:1 on --bg */
+    --muted: #a8a8a8;         /* PROPOSED: 7.9:1 on --bg, 7.3:1 on --card */
+    --border: #33322e;        /* PROPOSED: warm rule, decorative */
+    --soft: #222222;          /* PROPOSED */
+    --primary: #f3f2ef;       /* PROPOSED: pill inverts to paper */
+    --primary-fg: #111111;    /* 16.9:1 */
+    --primary-hover: #d9d7d1; /* PROPOSED */
+    --outline-hover: rgba(243, 242, 239, 0.08);
+    --ring: #f3f2ef;
+    --credit-fg: #cdd6d1;     /* crom-credit SPEC dark text, 12.7:1 on #111111 */
+    --thumb-bg: #ffffff;      /* thumbs stay white windows in both schemes */
+    color-scheme: dark;
+}
+
+/* light/dark asset swap (logo, credit). Put each variant in a wrapper <span class="crom-when-light|dark">; the shown wrapper uses display:contents so the inner snippet keeps its own layout. Light is the default. */
+.crom-when-dark { display: none !important; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .crom-when-light { display: none !important; }
+  :root:not([data-theme="light"]) .crom-when-dark { display: contents !important; }
+}
+:root[data-theme="dark"] .crom-when-light { display: none !important; }
+:root[data-theme="dark"] .crom-when-dark { display: contents !important; }
+
+/* base */
+* { box-sizing: border-box; }
+html { overflow-x: clip; color-scheme: light; }
+:root[data-theme="light"] { color-scheme: light; }
+body {
+  margin: 0;
+  min-height: 100vh;
+  color: var(--fg);
+  background: var(--bg);
+  font-family: var(--font-ui);
+  font-size: var(--fs-body);
+  line-height: 1.55;
+}
+@media (min-width: 768px) { body { font-size: var(--fs-body-md); } }
+a { color: var(--fg); text-underline-offset: 4px; }
+a:focus-visible, button:focus-visible { outline: 2px solid var(--ring); outline-offset: 2px; }
+
+/* layout */
+.crom-shell { max-width: var(--shell); margin: 0 auto; padding: 0 var(--gutter); }
+.crom-section { border-top: 1px solid var(--border); padding: var(--section-pad) 0; }
+@media (min-width: 768px) { .crom-section { padding: var(--section-pad-md) 0; } }
+
+/* type helpers */
+.crom-h1 { font-size: var(--fs-h1); line-height: 1.18; font-weight: 600; letter-spacing: var(--tracking-tight); margin: 0; }
+@media (min-width: 768px) { .crom-h1 { font-size: var(--fs-h1-md); line-height: 1.12; } }
+.crom-h2 { font-size: var(--fs-h2); line-height: 1.2; font-weight: 600; letter-spacing: var(--tracking-tight); margin: 0; }
+@media (min-width: 768px) { .crom-h2 { font-size: var(--fs-h2-md); } }
+.crom-h3 { font-size: var(--fs-h3); line-height: 1.2; font-weight: 600; letter-spacing: var(--tracking-tight); margin: 0; }
+.crom-lead { font-size: var(--fs-lead); margin: 24px 0 0; max-width: 62ch; }
+@media (min-width: 768px) { .crom-lead { font-size: var(--fs-lead-md); } }
+.crom-note { font-size: var(--fs-note); line-height: 1.625; color: var(--muted); }
+.crom-small { font-size: var(--fs-small); color: var(--muted); }
+.crom-eyebrow { font-size: var(--fs-small); font-weight: 500; color: var(--muted); margin: 0 0 12px; }
+
+/* shared header (header.js / header.html) */
+.crom-header {
+  position: sticky; top: 0; z-index: 50;
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+}
+.crom-header__inner {
+  max-width: var(--shell); margin: 0 auto; padding: 12px var(--gutter);
+  display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap;
+}
+.crom-brand { display: inline-flex; align-items: center; min-height: 44px; text-decoration: none; color: inherit; }
+.crom-logo { display: block; height: var(--logo-h); width: auto; }
+@media (min-width: 768px) { .crom-logo { height: var(--logo-h-md); } }
+.crom-tag {
+  font-size: var(--fs-small); font-weight: 500; color: var(--muted);
+  border: 1px solid var(--border); background: var(--card);
+  padding: 6px 14px; border-radius: var(--radius-pill); white-space: nowrap;
+}
+
+/* cards, chips, buttons */
+.crom-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius-card); padding: var(--card-pad); box-shadow: none; overflow: hidden; }
+.crom-chip {
+  display: inline-block; font-size: var(--fs-small); font-weight: 500; color: var(--fg);
+  background: var(--soft); border: 1px solid var(--border); border-radius: var(--radius-pill); padding: 4px 12px;
+}
+.crom-btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-height: var(--btn-min-h); padding: var(--btn-pad);
+  font-family: var(--font-ui); font-size: 16px; font-weight: 500; line-height: 24px;
+  text-decoration: none; border-radius: var(--radius-pill); border: 1px solid var(--primary);
+  background: var(--primary); color: var(--primary-fg); cursor: pointer;
+  transition: background-color 150ms var(--ease); width: fit-content;
+}
+.crom-btn:hover { background: var(--primary-hover); border-color: var(--primary-hover); }
+.crom-btn--outline { background: transparent; color: var(--fg); border-color: var(--fg); }
+.crom-btn--outline:hover { background: var(--outline-hover); border-color: var(--fg); }
+
+/* thumbs: white canvas, contain, corners follow the card */
+.crom-thumb { display: block; width: 100%; height: auto; object-fit: contain; background: var(--thumb-bg); }
+
+/* shared footer (footer.js / footer.html / CromFooter.tsx) */
+.crom-footer { border-top: 1px solid var(--border); margin-top: 64px; padding: 32px 0 40px; font-size: var(--fs-small); color: var(--muted); }
+.crom-footer a { color: var(--muted); }
+.crom-footer p { margin: 0 0 12px; }
+.crom-footer__line { margin: 0 0 18px; }
+.crom-footer__credit { display: block; padding: 0; }

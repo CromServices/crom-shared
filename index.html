@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>crom-shared · Crom Services theme</title>
+  <meta name="robots" content="noindex" />
+  <link rel="stylesheet" href="./theme.css" />
+  <script src="./header.js" defer></script>
+  <script src="./footer.js" defer></script>
+  <style>
+    .demo-grid { display: grid; grid-template-columns: 1fr; gap: var(--gap); margin-top: 32px; }
+    @media (min-width: 640px) { .demo-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (min-width: 900px) { .demo-grid { grid-template-columns: repeat(3, 1fr); } }
+    .row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-top: 16px; }
+    .swatches { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+    .sw { width: 64px; font-size: 12px; color: var(--muted); }
+    .sw i { display: block; height: 40px; border-radius: 10px; border: 1px solid var(--border); margin-bottom: 4px; }
+    code { font-size: 0.9em; background: var(--soft); border: 1px solid var(--border); border-radius: 6px; padding: 1px 6px; }
+  </style>
+</head>
+<body>
+  <header data-crom-header data-tag="Shared theme · v1"></header>
+  <main class="crom-shell">
+    <section style="padding: 56px 0 48px;">
+      <p class="crom-eyebrow">Australia · shared look for Crom Services samples</p>
+      <h1 class="crom-h1">One theme, every sample</h1>
+      <p class="crom-lead">Link <code>theme.css</code>, <code>header.js</code> and <code>footer.js</code> from this site. Light by default; follows the visitor's dark mode.</p>
+      <div class="row">
+        <a class="crom-btn" href="https://github.com/CromServices/crom-shared">Open the repo</a>
+        <a class="crom-btn crom-btn--outline" href="https://cromservices.github.io/job-page-sample/packs/">See the packs page</a>
+      </div>
+      <div class="row">
+        <span class="crom-chip">Fixed price</span><span class="crom-chip">Remote</span><span class="crom-chip">AU</span>
+      </div>
+    </section>
+    <section class="crom-section" style="padding-top: 48px;">
+      <h2 class="crom-h2">Tokens</h2>
+      <div class="swatches">
+        <div class="sw"><i style="background:var(--bg)"></i>--bg</div>
+        <div class="sw"><i style="background:var(--card)"></i>--card</div>
+        <div class="sw"><i style="background:var(--fg)"></i>--fg</div>
+        <div class="sw"><i style="background:var(--muted)"></i>--muted</div>
+        <div class="sw"><i style="background:var(--border)"></i>--border</div>
+        <div class="sw"><i style="background:var(--soft)"></i>--soft</div>
+        <div class="sw"><i style="background:var(--primary)"></i>--primary</div>
+      </div>
+      <div class="demo-grid">
+        <article class="crom-card"><h3 class="crom-h3">Card title</h3><p>Body text at the shared size. White card, 1px rule, 16px radius, no shadow.</p><a class="crom-btn" href="#">Primary pill</a></article>
+        <article class="crom-card"><h3 class="crom-h3">Muted note</h3><p class="crom-note">Notes and captions use the muted ink.</p><a class="crom-btn crom-btn--outline" href="#">Outline pill</a></article>
+        <article class="crom-card"><h3 class="crom-h3">Use it</h3><p class="crom-small">&lt;link rel="stylesheet" href="https://cromservices.github.io/crom-shared/theme.css"&gt;</p></article>
+      </div>
+    </section>
+    <footer data-crom-footer data-contact="off">
+      <p><a href="https://github.com/CromServices">CromServices on GitHub</a> · shared theme v1</p>
+    </footer>
+  </main>
+</body>
+</html>

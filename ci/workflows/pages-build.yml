@@ -1,0 +1,76 @@
+name: pages-build (reusable)
+# Crom Services shared GitHub Pages deploy for a Vite build or Next.js static export.
+# Installs, tests, runs the build script, then publishes the output folder.
+# Caller needs Pages source = "GitHub Actions" and:
+#   permissions: { contents: read, pages: write, id-token: write }
+#   jobs:
+#     pages:
+#       uses: CromServices/crom-shared/.github/workflows/pages-build.yml@v1
+#       with: { build-script: "build:pages", output-dir: "out" }   # Next export
+#       # Vite: { build-script: "build", output-dir: "dist" }
+# Set deploy: false on pull_request callers to build and test only.
+on:
+  workflow_call:
+    inputs:
+      node-version:
+        type: string
+        default: "20"
+      working-directory:
+        type: string
+        default: "."
+      test-script:
+        description: npm script to run before building ("" to skip)
+        type: string
+        default: "test"
+      build-script:
+        type: string
+        default: "build"
+      output-dir:
+        description: Build output folder, relative to working-directory (out for Next, dist for Vite)
+        type: string
+        default: "dist"
+      deploy:
+        description: Publish to Pages (false = build/test only, e.g. on PRs)
+        type: boolean
+        default: true
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ${{ inputs.working-directory }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ inputs.node-version }}
+          cache: npm
+          cache-dependency-path: ${{ inputs.working-directory }}/package-lock.json
+      - run: npm ci
+      - if: ${{ inputs.test-script != '' }}
+        run: npm run ${{ inputs.test-script }}
+      - run: npm run ${{ inputs.build-script }}
+      - run: touch "${{ inputs.output-dir }}/.nojekyll"
+      - if: ${{ inputs.deploy }}
+        uses: actions/configure-pages@v5
+      - if: ${{ inputs.deploy }}
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ${{ inputs.working-directory }}/${{ inputs.output-dir }}
+  deploy:
+    if: ${{ inputs.deploy }}
+    needs: build
+    runs-on: ubuntu-latest
+    concurrency:
+      group: pages-${{ github.repository }}
+      cancel-in-progress: false
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
