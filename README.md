@@ -8,13 +8,12 @@ Hosted on GitHub Pages: https://cromservices.github.io/crom-shared/
 | Piece | Hosted URL / path | Use it for |
 |---|---|---|
 | `theme.css` | https://cromservices.github.io/crom-shared/theme.css | Colour, type and layout tokens plus header, card, button, chip and footer styles. Light by default; follows the visitor's system dark mode (`prefers-color-scheme`). Force one with `<html data-theme="light">` or `data-theme="dark"`. |
-| `header.js` | https://cromservices.github.io/crom-shared/header.js | Renders the logo header into `<header data-crom-header data-tag="...">`. Logo swaps black/white with the scheme. |
+| `header.js` | https://cromservices.github.io/crom-shared/header.js | Renders the logo header into `<header data-crom-header data-tag="...">`. Uses the canonical logos https://cromservices.com.au/brand/logo/crom-logo-v26-ink.png (light) and `crom-logo-v26-white.png` (dark), swapped with `<picture>`. |
 | `footer.js` | https://cromservices.github.io/crom-shared/footer.js | Renders "Crom Services · Australia", optional contact and the hosted "Built by Crom Services" credit into `[data-crom-footer]`. |
 | `snippets/header.html`, `snippets/footer.html` | in this repo | No-JS copies of the header and footer markup. |
 | `react/CromCredit.tsx`, `react/CromFooter.tsx`, `react/CromHeader.tsx` | in this repo | The same pieces for React and Next.js. |
 | `README.template.md` | in this repo | The standard sample README, with the public-face checklist. |
 | `snippets/README-footer.md` | in this repo | The standard README footer (credit follows GitHub light/dark). |
-| `brand/` | https://cromservices.github.io/crom-shared/brand/ | The v26 logo, tight crops: black mark (light) and white mark (dark). |
 | reusable workflows | `.github/workflows/` (see below) | Shared CI and deploys. |
 
 ## Static HTML page
@@ -43,7 +42,7 @@ Hosted on GitHub Pages: https://cromservices.github.io/crom-shared/
 | Attribute | Values | Default | Notes |
 |---|---|---|---|
 | `data-contact` | `on` / `off` | `off` | `on` adds `cromservices@gmail.com`. The packs page stays `off` (no email on /packs/). |
-| `data-credit` | `auto` / `light` / `dark` | `auto` | `auto` follows the page scheme (needs `theme.css`). `light` / `dark` force one version, for pages that don't load `theme.css`: light on light footers, dark on dark footers. |
+| `data-credit` | `auto` / `light` / `dark` | `auto` | `auto` picks the light or dark credit from the visitor's scheme (or `<html data-theme>`), and switches if they change it. `light` / `dark` force one: light on light footers, dark on dark footers. |
 | `data-credit-show` | `off` | shown | Hide the credit. |
 
 The credit markup is the hosted canonical snippet from the Crom credit spec, unchanged: images load from https://cromservices.com.au/brand/credit/.
@@ -121,7 +120,7 @@ gh api -X POST repos/CromServices/<repo>/pages -f 'source[branch]=main' -f 'sour
 
 - `v1.0.0`: an exact, frozen release. `v1`: moves to the newest 1.x release.
 - The hosted Pages files always serve the newest `main`. If a breaking change ever comes (v2), the v1 files will be frozen under `/v1/` first, so pinned pages keep working.
-- Light tokens are measured from the firm homepage. Dark tokens are marked PROPOSED in `theme.css` until Brand signs them off.
+- Light tokens are measured from the firm homepage; dark tokens are Brand's designed, AA-checked counterpart. Only colours change between schemes.
 
 ---
 

@@ -10,10 +10,10 @@
  *
  * Attributes on the [data-crom-footer] element:
  *   data-credit="auto" | "light" | "dark"
- *                                  auto (default): follows the page scheme (theme.css
- *                                  prefers-color-scheme / data-theme) by rendering both
- *                                  SPEC snippets and letting theme.css show one.
- *                                  light/dark: force one (pages without theme.css).
+ *                                  auto (default): picks the SPEC light or dark snippet
+ *                                  from the resolved scheme (<html data-theme> if set,
+ *                                  else prefers-color-scheme) and re-renders if the
+ *                                  visitor switches. light/dark: force one.
  *   data-contact="on" | "off"      show cromservices@gmail.com (default off;
  *                                  the packs page must stay "off")
  *   data-credit-show="off"         hide the credit (default shown)
@@ -55,25 +55,37 @@
     return '<p class="crom-footer__line">' + html + "</p>";
   }
 
+  function scheme() {
+    var forced = document.documentElement.getAttribute("data-theme");
+    if (forced === "dark" || forced === "light") return forced;
+    return window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+  }
+
   function render(el) {
-    if (el.getAttribute("data-crom-footer-done") === "1") return;
+    if (!el.hasAttribute("data-crom-footer-extra")) {
+      el.setAttribute("data-crom-footer-extra", el.innerHTML.trim());
+    }
+    var extra = el.getAttribute("data-crom-footer-extra");
     var v = el.getAttribute("data-credit");
-    var credit = v === "dark" ? CREDIT.dark : v === "light" ? CREDIT.light :
-      '<span class="crom-when-light">' + CREDIT.light + '</span><span class="crom-when-dark">' + CREDIT.dark + "</span>";
+    var variant = v === "dark" || v === "light" ? v : scheme();
     var contact = el.getAttribute("data-contact") === "on";
     var showCredit = el.getAttribute("data-credit-show") !== "off";
-    var extra = el.innerHTML.trim();
     el.classList.add("crom-footer");
     el.innerHTML =
       (extra ? '<div class="crom-footer__extra">' + extra + "</div>" : "") +
       line(contact) +
-      (showCredit ? '<div class="crom-footer__credit">' + credit + "</div>" : "");
-    el.setAttribute("data-crom-footer-done", "1");
+      (showCredit ? '<div class="crom-footer__credit">' + CREDIT[variant] + "</div>" : "");
   }
 
   function run() {
     var els = document.querySelectorAll("[data-crom-footer]");
     for (var i = 0; i < els.length; i++) render(els[i]);
+  }
+
+  if (window.matchMedia) {
+    var mq = window.matchMedia("(prefers-color-scheme: dark)");
+    if (mq.addEventListener) mq.addEventListener("change", run);
+    else if (mq.addListener) mq.addListener(run);
   }
 
   window.CromFooter = { render: render, run: run, credit: CREDIT, version: "1.0.0" };

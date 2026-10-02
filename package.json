@@ -4,7 +4,7 @@
   "description": "Crom Services shared theme, header/footer and credit for sample repos",
   "license": "MIT",
   "type": "module",
-  "files": ["theme.css", "footer.js", "header.js", "react", "snippets", "brand"],
+  "files": ["theme.css", "footer.js", "header.js", "react", "snippets"],
   "exports": {
     "./theme.css": "./theme.css",
     "./footer.js": "./footer.js",

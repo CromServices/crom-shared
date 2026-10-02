@@ -1,33 +1,43 @@
 /*
- * Crom Services shared light theme: crom-shared v1
+ * Crom Services shared theme (light default + dark by system preference): crom-shared v1
  * ONE source for every Crom sample page, the packs page and the job page.
  * Hosted: https://cromservices.github.io/crom-shared/theme.css
  * Values: Brand PACKS-SCHEME-SPEC.md (measured from https://cromservices.lovable.app/, 1 Oct 2026).
  * Change a value here and every sample that links this file picks it up.
  * Follows the visitor's system setting (prefers-color-scheme): light by default,
  * dark when the OS asks for dark. Force one with <html data-theme="light|dark">.
- * Light tokens: measured (Brand spec). Dark tokens: PROPOSED (Brand to check),
- * neutral ink, not the old green job-page palette.
- * Logo and credit swap with the scheme via .crom-when-light / .crom-when-dark.
+ * Light tokens: Brand PACKS-SCHEME-SPEC.md (measured). Dark tokens: Brand
+ * DARK-SCHEME-SPEC.md (designed counterpart, AA-checked). Both blocks below are
+ * pasted verbatim from DARK-SCHEME-SPEC.md section 3.
+ * Logo: <picture> swap by preference (header.js / snippets). Credit: footer.js
+ * picks the SPEC light or dark snippet from the resolved scheme.
  */
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap");
 
+/* Brand palette, verbatim from DARK-SCHEME-SPEC.md section 3 */
 :root {
-  /* colours */
-  --bg: #f3f2ef;            /* page (live --paper) */
-  --card: #ffffff;          /* cards (live --surface) */
-  --fg: #111111;            /* body text, headings (live --ink) */
-  --muted: #6b6b6b;         /* muted / small text (live --ink-soft) */
-  --border: #e4e2dc;        /* card borders, header rule, section dividers (live --rule) */
-  --soft: #eeede9;          /* chips, soft panels (live --secondary) */
-  --primary: #111111;       /* primary button bg */
-  --primary-fg: #ffffff;    /* primary button text */
-  --primary-hover: #333333; /* primary button hover (live --ink-hover) */
-  --outline-hover: rgba(17, 17, 17, 0.06); /* outline button hover */
-  --ring: #111111;          /* focus outline */
-  --credit-fg: #4a5752;     /* "Built by Crom Services" text on light footers (crom-credit SPEC) */
-  --thumb-bg: #ffffff;      /* thumbs are drawn on white (THUMB-SPEC) */
-  /* shape and spacing */
+  /* Crom firm LIGHT scheme (measured — see PACKS-SCHEME-SPEC.md) */
+  --bg: #f3f2ef;  --card: #ffffff;  --soft: #eeede9;
+  --fg: #111111;  --muted: #6b6b6b; --border: #e4e2dc;
+  --primary: #111111; --primary-fg: #ffffff; --primary-hover: #333333;
+  --outline-hover: rgba(17,17,17,.06); --ring: #111111;
+  --font-ui: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    /* Crom firm DARK scheme (designed counterpart, AA-checked — DARK-SCHEME-SPEC.md) */
+    --bg: #1b1a17;  --card: #26241f;  --soft: #24221d;
+    --fg: #f3f1ec;  --muted: #a7a399; --border: #38352e;
+    --primary: #f3f1ec; --primary-fg: #111111; --primary-hover: #e3e0d8;
+    --outline-hover: rgba(243,241,236,.08); --ring: #f3f1ec;
+  }
+}
+
+/* Shared non-colour tokens (unchanged between schemes; PACKS-SCHEME-SPEC.md) */
+:root {
+  --credit-fg: #4a5752;     /* credit text on light footers (crom-credit SPEC) */
+  --thumb-bg: #ffffff;      /* thumbs are white browser windows (THUMB-SPEC) */
   --radius-card: 16px;
   --radius-media: 12px;
   --radius-pill: 9999px;
@@ -39,10 +49,8 @@
   --btn-min-h: 44px;
   --logo-h: 64px;           /* mobile */
   --logo-h-md: 84px;        /* >=768px */
-  --section-pad: 64px;      /* mobile */
-  --section-pad-md: 96px;   /* >=768px */
-  /* type */
-  --font-ui: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --section-pad: 64px;
+  --section-pad-md: 96px;
   --fs-body: 17px;  --fs-body-md: 18px;
   --fs-lead: 1.0625rem; --fs-lead-md: 1.2rem;
   --fs-h1: 2.05rem; --fs-h1-md: 3.4rem;
@@ -52,45 +60,31 @@
   --fs-small: 14px;
   --tracking-tight: -0.018em;
   --ease: cubic-bezier(0.4, 0, 0.2, 1);
+  color-scheme: light dark;
+}
+@media (prefers-color-scheme: dark) {
+  :root { --credit-fg: #cdd6d1; } /* credit text on dark footers (crom-credit SPEC) */
 }
 
-/* DARK tokens (PROPOSED for Brand's check). Same values twice: system dark, and forced data-theme="dark". */
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    --bg: #111111;            /* PROPOSED: firm ink as page */
-    --card: #1a1a1a;          /* PROPOSED */
-    --fg: #f3f2ef;            /* PROPOSED: firm paper as text, 16.9:1 on --bg */
-    --muted: #a8a8a8;         /* PROPOSED: 7.9:1 on --bg, 7.3:1 on --card */
-    --border: #33322e;        /* PROPOSED: warm rule, decorative */
-    --soft: #222222;          /* PROPOSED */
-    --primary: #f3f2ef;       /* PROPOSED: pill inverts to paper */
-    --primary-fg: #111111;    /* 16.9:1 */
-    --primary-hover: #d9d7d1; /* PROPOSED */
-    --outline-hover: rgba(243, 242, 239, 0.08);
-    --ring: #f3f2ef;
-    --credit-fg: #cdd6d1;     /* crom-credit SPEC dark text, 12.7:1 on #111111 */
-    --thumb-bg: #ffffff;      /* thumbs stay white windows in both schemes */
-    color-scheme: dark;
-  }
+/* Optional override for screenshots and testing: <html data-theme="light|dark">.
+   Same values as above; the attribute selector beats the media query. */
+:root[data-theme="light"] {
+  --bg: #f3f2ef;  --card: #ffffff;  --soft: #eeede9;
+  --fg: #111111;  --muted: #6b6b6b; --border: #e4e2dc;
+  --primary: #111111; --primary-fg: #ffffff; --primary-hover: #333333;
+  --outline-hover: rgba(17,17,17,.06); --ring: #111111;
+  --credit-fg: #4a5752; color-scheme: light;
 }
 :root[data-theme="dark"] {
-    --bg: #111111;            /* PROPOSED: firm ink as page */
-    --card: #1a1a1a;          /* PROPOSED */
-    --fg: #f3f2ef;            /* PROPOSED: firm paper as text, 16.9:1 on --bg */
-    --muted: #a8a8a8;         /* PROPOSED: 7.9:1 on --bg, 7.3:1 on --card */
-    --border: #33322e;        /* PROPOSED: warm rule, decorative */
-    --soft: #222222;          /* PROPOSED */
-    --primary: #f3f2ef;       /* PROPOSED: pill inverts to paper */
-    --primary-fg: #111111;    /* 16.9:1 */
-    --primary-hover: #d9d7d1; /* PROPOSED */
-    --outline-hover: rgba(243, 242, 239, 0.08);
-    --ring: #f3f2ef;
-    --credit-fg: #cdd6d1;     /* crom-credit SPEC dark text, 12.7:1 on #111111 */
-    --thumb-bg: #ffffff;      /* thumbs stay white windows in both schemes */
-    color-scheme: dark;
+  --bg: #1b1a17;  --card: #26241f;  --soft: #24221d;
+  --fg: #f3f1ec;  --muted: #a7a399; --border: #38352e;
+  --primary: #f3f1ec; --primary-fg: #111111; --primary-hover: #e3e0d8;
+  --outline-hover: rgba(243,241,236,.08); --ring: #f3f1ec;
+  --credit-fg: #cdd6d1; color-scheme: dark;
 }
 
-/* light/dark asset swap (logo, credit). Put each variant in a wrapper <span class="crom-when-light|dark">; the shown wrapper uses display:contents so the inner snippet keeps its own layout. Light is the default. */
+/* CSS swap helpers for React/static markup that renders both variants
+   (CromFooter auto). Put each variant in <span class="crom-when-light|dark">. */
 .crom-when-dark { display: none !important; }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) .crom-when-light { display: none !important; }
@@ -101,8 +95,7 @@
 
 /* base */
 * { box-sizing: border-box; }
-html { overflow-x: clip; color-scheme: light; }
-:root[data-theme="light"] { color-scheme: light; }
+html { overflow-x: clip; }
 body {
   margin: 0;
   min-height: 100vh;
@@ -169,6 +162,8 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--ring); outline-
 .crom-btn:hover { background: var(--primary-hover); border-color: var(--primary-hover); }
 .crom-btn--outline { background: transparent; color: var(--fg); border-color: var(--fg); }
 .crom-btn--outline:hover { background: var(--outline-hover); border-color: var(--fg); }
+.crom-btn:hover { color: var(--primary-fg); }
+.crom-btn--outline:hover { color: var(--fg); }
 
 /* thumbs: white canvas, contain, corners follow the card */
 .crom-thumb { display: block; width: 100%; height: auto; object-fit: contain; background: var(--thumb-bg); }
