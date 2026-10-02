@@ -2,7 +2,7 @@
  * Crom Services shared theme (light default + dark by system preference): crom-shared v1
  * ONE source for every Crom sample page, the packs page and the job page.
  * Hosted: https://cromservices.github.io/crom-shared/theme.css
- * Values: Brand PACKS-SCHEME-SPEC.md (measured from https://cromservices.lovable.app/, 1 Oct 2026).
+ * Values: Brand PACKS-SCHEME-SPEC.md (measured from https://cromservices.com.au/; first measured 1 Oct 2026, re-measured 3 Oct 2026).
  * Change a value here and every sample that links this file picks it up.
  * Follows the visitor's system setting (prefers-color-scheme): light by default,
  * dark when the OS asks for dark. Force one with <html data-theme="light|dark">.
