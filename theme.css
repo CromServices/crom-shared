@@ -38,6 +38,7 @@
 :root {
   --credit-fg: #4a5752;     /* credit text on light footers (crom-credit SPEC) */
   --thumb-bg: #ffffff;      /* thumbs are white browser windows (THUMB-SPEC) */
+  --accent-green: #4caf78;  /* same in light and dark; only the small 6px step/demo dots (PACKS/DARK-SCHEME-SPEC) */
   --radius-card: 16px;
   --radius-media: 12px;
   --radius-pill: 9999px;
@@ -164,6 +165,9 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--ring); outline-
 .crom-btn--outline:hover { background: var(--outline-hover); border-color: var(--fg); }
 .crom-btn:hover { color: var(--primary-fg); }
 .crom-btn--outline:hover { color: var(--fg); }
+
+/* small status dot (6px, decorative) */
+.crom-dot { display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: var(--accent-green); vertical-align: middle; }
 
 /* thumbs: white canvas, contain, corners follow the card */
 .crom-thumb { display: block; width: 100%; height: auto; object-fit: contain; background: var(--thumb-bg); }
