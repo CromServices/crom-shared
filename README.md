@@ -9,6 +9,7 @@ Hosted on GitHub Pages: https://cromservices.github.io/crom-shared/
 |---|---|---|
 | `theme.css` | https://cromservices.github.io/crom-shared/theme.css | Colour, type and layout tokens plus header, card, button, chip and footer styles. Light by default; follows the visitor's system dark mode (`prefers-color-scheme`). Force one with `<html data-theme="light">` or `data-theme="dark"`. |
 | `header.js` | https://cromservices.github.io/crom-shared/header.js | Renders the logo header into `<header data-crom-header data-tag="...">`. Uses the canonical logos https://cromservices.com.au/brand/logo/crom-logo-v26-ink.png (light) and `crom-logo-v26-white.png` (dark), swapped with `<picture>`. |
+| `brand/logo/` | https://cromservices.github.io/crom-shared/brand/logo/crom-logo-v26-ink.png (light backgrounds) and https://cromservices.github.io/crom-shared/brand/logo/crom-logo-v26-white.png (dark backgrounds) | The canonical v26 logo, Brand's exact files (526×481 PNG). Hosted here until cromservices.com.au/brand/logo/ goes live. |
 | `footer.js` | https://cromservices.github.io/crom-shared/footer.js | Renders "Crom Services · Australia", optional contact and the hosted "Built by Crom Services" credit into `[data-crom-footer]`. |
 | `snippets/header.html`, `snippets/footer.html` | in this repo | No-JS copies of the header and footer markup. |
 | `react/CromCredit.tsx`, `react/CromFooter.tsx`, `react/CromHeader.tsx` | in this repo | The same pieces for React and Next.js. |
