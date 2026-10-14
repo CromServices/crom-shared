@@ -1,0 +1,3 @@
+# L-054 allowed exceptions (regex on file:line:text)
+# Internal checklist text that states the rule itself, not public copy:
+^README\.template\.md:5:
